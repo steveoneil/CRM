@@ -34,9 +34,9 @@ class CRM
     case user_selection
     when 1 then add_new_contact
     when 2 then modify_existing_contact
-    when 3 then
-    when 4 then
-    when 5 then
+    when 3 then delete contact
+    when 4 then display_all_contacts
+    when 5 then search_by_attribute
     when 6 then exit
     when 7 then test_method
     else
@@ -52,12 +52,6 @@ class CRM
     puts "Test Method"
     puts " "
     # @clear_screen = false
-
-    print 'Enter ID: '
-    id = gets.chomp.to_i
-    contact = Contact.get(id)
-    p "The contact is:"
-    p contact
   end
 
   def add_new_contact
@@ -85,17 +79,38 @@ class CRM
   end
 
   def display_all_contacts
-    # Implement this method
+    display_contacts(Contact.all)
     # HINT: Make use of the display_contacts method
   end
 
   def search_by_attribute
-    # Implement this method
+    # puts "\e[H\e[2J" if @clear_screen == true
+    # @clear_screen = true
+    puts "Select Attribute Type"
+    puts "[1] Contact ID"
+    puts "[2] First Name"
+    puts "[3] Last Name"
+    puts "[4] Email Address"
+    puts "[5] Note"
+    puts "[6] Return to Main Menu"
+    print "Enter a number: "
+    att_type = gets.chomp.to_i
+    if att_type == 6
+      return
+    else
+        print "Enter Value: "
+        att_value = gets.chomp
+          contacts = Contact.search_by_attribute(att_type, att_value)
+        if contacts.empty? == true
+          puts "No contacts found"
+        end
+    end
+    display_contacts(contacts)
     # HINT: Make use of the display_contacts method
   end
 
   def display_contacts(contacts)
-    # Implement this method
+    contacts.each { |contact| puts "Name: #{contact.full_name}, Email: #{contact.email}, Note: #{contact.note}"}
     # HINT: Make use of this method in the display_all_contacts and search_by_attribute methods
   end
 

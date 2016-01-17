@@ -29,8 +29,19 @@ class Contact
     @@contacts.find { |contact| contact.id == id}
   end
 
-  def self.search_by_attribute(name, value)
-    @@contacts.find_all { |contact| contact.name == value}
+  def self.search_by_attribute(att_type, value)
+    case att_type
+      when 1
+        found_contacts = @@contacts.find_all { |contact| contact.id.to_s == value}
+      when 2
+        found_contacts = @@contacts.find_all { |contact| contact.first_name == value}
+      when 3
+        found_contacts = @@contacts.find_all { |contact| contact.last_name == value}
+      when 4
+        found_contacts = @@contacts.find_all { |contact| contact.email == value}
+      when 5
+        found_contacts = @@contacts.find_all { |contact| contact.note == value}
+    end
   end
 
   def self.delete_all
