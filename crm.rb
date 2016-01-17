@@ -19,8 +19,8 @@ class CRM
   end
 
   def print_main_menu
-    puts "\e[H\e[2J" if @clear_screen == true
-    @clear_screen = true
+    # puts "\e[H\e[2J" if @clear_screen == true
+    # @clear_screen = true
     puts "[1] Add a new contact"
     puts "[2] Modify an existing contact"
     puts "[3] Delete a contact"
@@ -40,23 +40,24 @@ class CRM
     when 6 then exit
     when 7 then test_method
     else
-      puts "\e[H\e[2J"
+      # puts "\e[H\e[2J"
       puts "Invalid entry. Please try again."
       puts " "
-      @clear_screen = false
+      # @clear_screen = false
     end
   end
 
   def test_method
-    puts "\e[H\e[2J"
+    # puts "\e[H\e[2J"
     puts "Test Method"
     puts " "
-    @clear_screen = false
+    # @clear_screen = false
 
     print 'Enter ID: '
-    id = gets.chomp
+    id = gets.chomp.to_i
     contact = Contact.get(id)
-    puts "#{contact.id} #{contact.name}"
+    p "The contact is:"
+    p contact
   end
 
   def add_new_contact
