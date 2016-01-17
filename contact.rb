@@ -1,36 +1,36 @@
 class Contact
 
-  attr_reader :id
   attr_accessor :first_name, :last_name, :email, :note
+  attr_reader :id
 
   @@contacts = []
   @@id = 1
 
-  def initialize(first_name, last_name, email, note)
+  def initialize(id, first_name, last_name, email, note)
+    @id = id
     @first_name = first_name
     @last_name = last_name
     @email = email
     @note = note
-    @id = @@id
-    @@id += 1
   end
 
   def self.create(first_name, last_name, email, note)
-    new_contact = Contact.new(first_name, last_name, email, note)
+    new_contact = new(@@id, first_name, last_name, email, note)
     @@contacts << new_contact
+    @@id += 1
     new_contact
   end
 
   def self.all
-    # Implement this method
+    @@contacts
   end
 
   def self.get(id)
-    # Implement this method
+    @@contacts.find { |contact| contact.id == id}
   end
 
   def self.search_by_attribute(name, value)
-    # Implement this method
+    @@contacts.find_all { |contact| contact.name == value}
   end
 
   def self.delete_all
@@ -38,7 +38,7 @@ class Contact
   end
 
   def full_name
-    # Implement this method
+    "#{first_name} #{last_name}"
   end
 
   def update(attribute, value)

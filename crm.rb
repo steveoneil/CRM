@@ -1,4 +1,4 @@
-# Add any require_relative statements here
+require_relative 'contact.rb'
 
 class CRM
 
@@ -11,19 +11,68 @@ class CRM
   end
 
   def main_menu
-    # Implement this method
+    while true
+      print_main_menu
+      user_selection = gets.to_i
+      call_option(user_selection)
+    end
   end
 
   def print_main_menu
-    # Implement this method
+    puts "\e[H\e[2J" if @clear_screen == true
+    @clear_screen = true
+    puts "[1] Add a new contact"
+    puts "[2] Modify an existing contact"
+    puts "[3] Delete a contact"
+    puts "[4] Display all the contacts"
+    puts "[5] Search by attribute"
+    puts "[6] Exit"
+    puts "Enter a number: "
   end
 
-  def call_option(user_selected)
-    # Implement this method
+  def call_option(user_selection)
+    case user_selection
+    when 1 then add_new_contact
+    when 2 then modify_existing_contact
+    when 3 then
+    when 4 then
+    when 5 then
+    when 6 then exit
+    when 7 then test_method
+    else
+      puts "\e[H\e[2J"
+      puts "Invalid entry. Please try again."
+      puts " "
+      @clear_screen = false
+    end
+  end
+
+  def test_method
+    puts "\e[H\e[2J"
+    puts "Test Method"
+    puts " "
+    @clear_screen = false
+
+    print 'Enter ID: '
+    id = gets.chomp
+    contact = Contact.get(id)
+    puts "#{contact.id} #{contact.name}"
   end
 
   def add_new_contact
-    # Implement this method
+    print 'Enter First Name: '
+    first_name = gets.chomp
+
+    print 'Enter Last Name: '
+    last_name = gets.chomp
+
+    print 'Enter Email Address: '
+    email = gets.chomp
+
+    print 'Enter a Note: '
+    note = gets.chomp
+
+    Contact.create(first_name, last_name, email, note)
   end
 
   def modify_existing_contact
@@ -54,3 +103,8 @@ class CRM
 end
 
 # Run the program here (See 'Using a class method`)
+@clear_screen = true
+puts "\e[H\e[2J"
+
+crm_app = CRM.new("DarkForce CRM")
+crm_app.main_menu
