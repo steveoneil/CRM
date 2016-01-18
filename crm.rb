@@ -38,20 +38,12 @@ class CRM
     when 4 then display_all_contacts
     when 5 then search_by_attribute
     when 6 then exit
-    when 7 then test_method
     else
       # puts "\e[H\e[2J"
       puts "Invalid entry. Please try again."
       puts " "
       # @clear_screen = false
     end
-  end
-
-  def test_method
-    # puts "\e[H\e[2J"
-    puts "Test Method"
-    puts " "
-    # @clear_screen = false
   end
 
   def add_new_contact
@@ -71,7 +63,35 @@ class CRM
   end
 
   def modify_existing_contact
-    # Implement this method
+    # puts "\e[H\e[2J" if @clear_screen == true
+    # @clear_screen = true
+    puts "Enter ID of contact to be modified:"
+    id = gets.chomp
+    print id
+    contact = Contact.search_by_attribute(1, id)
+    print contact
+
+    if contact.empty? == true
+      puts "No contacts found"
+      return
+    end
+
+    puts "Select attribute to be modified:"
+    puts "[1] First Name"
+    puts "[2] Last Name"
+    puts "[3] Email Address"
+    puts "[4] Note"
+    puts "[5] Return to Main Menu"
+    print "Enter a number: "
+    att_type = (gets.chomp.to_i) + 1
+    if (2..5).include?(att_type)
+        print "Enter new (modified) value: "
+        att_value = gets.chomp
+        Contact.update(id, att_type, att_value)
+    else
+      return
+    end
+    # display_contacts(contact)
   end
 
   def delete_contact
@@ -95,22 +115,22 @@ class CRM
     puts "[6] Return to Main Menu"
     print "Enter a number: "
     att_type = gets.chomp.to_i
-    if att_type == 6
-      return
-    else
+    if (1..5).include?(att_type)
         print "Enter Value: "
         att_value = gets.chomp
           contacts = Contact.search_by_attribute(att_type, att_value)
         if contacts.empty? == true
           puts "No contacts found"
         end
+    else
+      return
     end
     display_contacts(contacts)
     # HINT: Make use of the display_contacts method
   end
 
   def display_contacts(contacts)
-    contacts.each { |contact| puts "Name: #{contact.full_name}, Email: #{contact.email}, Note: #{contact.note}"}
+    contacts.each { |contact| puts "Contact ID: #{contact.id}, Name: #{contact.full_name}, Email: #{contact.email}, Note: #{contact.note}"}
     # HINT: Make use of this method in the display_all_contacts and search_by_attribute methods
   end
 

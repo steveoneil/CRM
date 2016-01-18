@@ -52,12 +52,25 @@ class Contact
     "#{first_name} #{last_name}"
   end
 
-  def update(attribute, value)
-    # Implement this method
+  def self.update(id, att_type, value)
+    index_s = @@contacts.index { |contact| contact.id == id}
+    index = index_s.to_i
+    p @@contacts[index]
+    case att_type
+      when 2
+        @@contacts[index].first_name = value
+      when 3
+        @@contacts[index].last_name = value
+      when 4
+        @@contacts[index].email = value
+      when 5
+        @@contacts[index].note = value
+    end
+    p @@contacts[index]
   end
 
-  def delete
-    # Implement this method
+  def delete(id)
+
   end
 
 end
