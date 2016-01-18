@@ -3,11 +3,9 @@ require_relative 'contact.rb'
 class CRM
 
   def self.run(name)
-    # Implement this method
   end
 
   def initialize(name)
-    # Implement this method
   end
 
   def main_menu
@@ -19,8 +17,8 @@ class CRM
   end
 
   def print_main_menu
-    # puts "\e[H\e[2J" if @clear_screen == true
-    # @clear_screen = true
+    puts "\e[H\e[2J" if @clear_screen == true
+    @clear_screen = true
     puts "[1] Add a new contact"
     puts "[2] Modify an existing contact"
     puts "[3] Delete a contact"
@@ -39,10 +37,10 @@ class CRM
     when 5 then search_by_attribute
     when 6 then exit
     else
-      # puts "\e[H\e[2J"
+      puts "\e[H\e[2J"
       puts "Invalid entry. Please try again."
       puts " "
-      # @clear_screen = false
+      @clear_screen = false
     end
   end
 
@@ -63,42 +61,49 @@ class CRM
   end
 
   def modify_existing_contact
-    # puts "\e[H\e[2J" if @clear_screen == true
-    # @clear_screen = true
+    puts "\e[H\e[2J" if @clear_screen == true
+    @clear_screen = true
     puts "Enter ID of contact to be modified:"
     id = gets.chomp
     contact = Contact.search_by_attribute(1, id)
-
-    if contact.empty? == true
-      puts "No contacts found"
+    puts "Are you sure want to modify the contact id #{id} info? (yes / no)"
+    proceed = gets.chomp
+    if proceed == "no"
       return
-    end
-
-    puts "Select attribute to be modified:"
-    puts "[1] First Name"
-    puts "[2] Last Name"
-    puts "[3] Email Address"
-    puts "[4] Note"
-    puts "[5] Return to Main Menu"
-    print "Enter a number: "
-    att_type = (gets.chomp.to_i) + 1
-    if (2..5).include?(att_type)
-        print "Enter new (modified) value: "
-        att_value = gets.chomp
-        contact = Contact.update(id, att_type, att_value)
     else
-      return
+      if contact.empty? == true
+        puts "No contacts found"
+        return
+      end
+
+      puts "Select attribute to be modified:"
+      puts "[1] First Name"
+      puts "[2] Last Name"
+      puts "[3] Email Address"
+      puts "[4] Note"
+      puts "[5] Return to Main Menu"
+      print "Enter a number: "
+      att_type = (gets.chomp.to_i) + 1
+      if (2..5).include?(att_type)
+          print "Enter new (modified) value: "
+          att_value = gets.chomp
+          contact = Contact.update(id, att_type, att_value)
+      else
+        return
+      end
+      puts "\e[H\e[2J"
+      puts "Contact ID: #{contact.id}, Name: #{contact.full_name}, Email: #{contact.email}, Note: #{contact.note}"
+      puts " "
+      @clear_screen = false
     end
-    puts "Contact ID: #{contact.id}, Name: #{contact.full_name}, Email: #{contact.email}, Note: #{contact.note}"
   end
 
   def delete_contact
-    # puts "\e[H\e[2J" if @clear_screen == true
-    # @clear_screen = true
+    puts "\e[H\e[2J" if @clear_screen == true
+    @clear_screen = true
     puts "Enter ID of contact to be deleted:"
     id = gets.chomp
-    del_contact = Contact.delete(id)
-    p del_contact
+    Contact.delete(id)
   end
 
   def display_all_contacts
@@ -106,8 +111,8 @@ class CRM
   end
 
   def search_by_attribute
-    # puts "\e[H\e[2J" if @clear_screen == true
-    # @clear_screen = true
+    puts "\e[H\e[2J" if @clear_screen == true
+    @clear_screen = true
     puts "Select Attribute Type"
     puts "[1] Contact ID"
     puts "[2] First Name"
@@ -131,14 +136,14 @@ class CRM
   end
 
   def display_contacts(contacts)
+    puts "\e[H\e[2J"
     contacts.each { |contact| puts "Contact ID: #{contact.id}, Name: #{contact.full_name}, Email: #{contact.email}, Note: #{contact.note}"}
+    puts " "
+    @clear_screen = false
   end
-
-  # Add other methods here, if you need them.
 
 end
 
-# Run the program here (See 'Using a class method`)
 @clear_screen = true
 puts "\e[H\e[2J"
 

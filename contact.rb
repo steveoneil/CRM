@@ -44,10 +44,6 @@ class Contact
     end
   end
 
-  def self.delete_all
-    # Implement this method
-  end
-
   def full_name
     "#{first_name} #{last_name}"
   end
@@ -69,10 +65,6 @@ class Contact
 
   def self.delete(id)
     index = @@contacts.index { |contact| contact.id.to_s == id}
-    @@contacts[index].first_name = nil
-    @@contacts[index].last_name = nil
-    @@contacts[index].email = nil
-    @@contacts[index].note = nil
+    @@contacts.delete_at(index)
   end
-
 end
