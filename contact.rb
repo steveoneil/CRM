@@ -53,9 +53,7 @@ class Contact
   end
 
   def self.update(id, att_type, value)
-    index_s = @@contacts.index { |contact| contact.id == id}
-    index = index_s.to_i
-    p @@contacts[index]
+    index = @@contacts.index { |contact| contact.id.to_s == id}
     case att_type
       when 2
         @@contacts[index].first_name = value
@@ -66,11 +64,15 @@ class Contact
       when 5
         @@contacts[index].note = value
     end
-    p @@contacts[index]
+    @@contacts[index]
   end
 
-  def delete(id)
-
+  def self.delete(id)
+    index = @@contacts.index { |contact| contact.id.to_s == id}
+    @@contacts[index].first_name = nil
+    @@contacts[index].last_name = nil
+    @@contacts[index].email = nil
+    @@contacts[index].note = nil
   end
 
 end

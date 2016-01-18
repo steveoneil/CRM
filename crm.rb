@@ -34,7 +34,7 @@ class CRM
     case user_selection
     when 1 then add_new_contact
     when 2 then modify_existing_contact
-    when 3 then delete contact
+    when 3 then delete_contact
     when 4 then display_all_contacts
     when 5 then search_by_attribute
     when 6 then exit
@@ -67,9 +67,7 @@ class CRM
     # @clear_screen = true
     puts "Enter ID of contact to be modified:"
     id = gets.chomp
-    print id
     contact = Contact.search_by_attribute(1, id)
-    print contact
 
     if contact.empty? == true
       puts "No contacts found"
@@ -87,20 +85,24 @@ class CRM
     if (2..5).include?(att_type)
         print "Enter new (modified) value: "
         att_value = gets.chomp
-        Contact.update(id, att_type, att_value)
+        contact = Contact.update(id, att_type, att_value)
     else
       return
     end
-    # display_contacts(contact)
+    puts "Contact ID: #{contact.id}, Name: #{contact.full_name}, Email: #{contact.email}, Note: #{contact.note}"
   end
 
   def delete_contact
-    # Implement this method
+    # puts "\e[H\e[2J" if @clear_screen == true
+    # @clear_screen = true
+    puts "Enter ID of contact to be deleted:"
+    id = gets.chomp
+    del_contact = Contact.delete(id)
+    p del_contact
   end
 
   def display_all_contacts
     display_contacts(Contact.all)
-    # HINT: Make use of the display_contacts method
   end
 
   def search_by_attribute
@@ -126,12 +128,10 @@ class CRM
       return
     end
     display_contacts(contacts)
-    # HINT: Make use of the display_contacts method
   end
 
   def display_contacts(contacts)
     contacts.each { |contact| puts "Contact ID: #{contact.id}, Name: #{contact.full_name}, Email: #{contact.email}, Note: #{contact.note}"}
-    # HINT: Make use of this method in the display_all_contacts and search_by_attribute methods
   end
 
   # Add other methods here, if you need them.
